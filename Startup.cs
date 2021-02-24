@@ -1,10 +1,13 @@
+using System.Text;
 using JwtBearerExample.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace JwtBearerExample
 {
@@ -21,6 +24,26 @@ namespace JwtBearerExample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            var key = Encoding.ASCII.GetBytes(Settings.Secret);
+            services.AddAuthentication ( X =>
+                {
+                    X.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    X.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                }
+            ).AddJwtBearer ( x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                }
+            );
             services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("database"));
         }
 
@@ -35,7 +58,8 @@ namespace JwtBearerExample
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
