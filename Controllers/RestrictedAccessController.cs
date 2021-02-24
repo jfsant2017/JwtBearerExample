@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +15,8 @@ namespace JwtBearerExample.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<dynamic>> PublicContent()
         {
-            return Ok(new { message = "You got public content." });
+            string loginName = HttpContext.User.Claims.FirstOrDefault(a => a.Type == ClaimTypes.Name)?.Value;
+            return Ok(new { message = string.Format("{0}, you got public content.", loginName) });
         }
         // Manager Only
         [HttpGet]
@@ -21,7 +24,8 @@ namespace JwtBearerExample.Controllers
         [Authorize(Roles="Manager")]
         public async Task<ActionResult<dynamic>> ManagerContent()
         {
-            return Ok(new { message = "You got manager content." });
+            string loginName = HttpContext.User.Claims.FirstOrDefault(a => a.Type == ClaimTypes.Name)?.Value;
+            return Ok(new { message = string.Format("{0}, you got manager content.", loginName) });
         }
 
         // Employee only
@@ -30,7 +34,8 @@ namespace JwtBearerExample.Controllers
         [Authorize(Roles="Employee")]
         public async Task<ActionResult<dynamic>> EmployeeContent()
         {
-            return Ok(new { message = "You got employee content." });
+            string loginName = HttpContext.User.Claims.FirstOrDefault(a => a.Type == ClaimTypes.Name)?.Value;
+            return Ok(new { message = string.Format("{0}, you got employee content.", loginName) });
         }
 
         // Authenticated access
@@ -39,7 +44,8 @@ namespace JwtBearerExample.Controllers
         [Authorize(Roles="Manager,Employee")]
         public async Task<ActionResult<dynamic>> AuthenticatedContent()
         {
-            return Ok(new { message = "You got authenticated data." });
+            string loginName = HttpContext.User.Claims.FirstOrDefault(a => a.Type == ClaimTypes.Name)?.Value;
+            return Ok(new { message = string.Format("{0}, you got authenticated content.", loginName) });
         }
     }
 }
