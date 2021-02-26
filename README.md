@@ -8,10 +8,10 @@ It is possible to validate the profiles access through Restricted Access request
 
 Both users are registered and available for testing.
 
-* [/content/public][1] available for all authenticated or not;
-* [/content/manager][1] available only for a manager role;
-* [/content/employee][1] available only for a employee role;
-* [/content/authenticated][1] available for both manager and employee roles;
+* [/content/public][3] available for all authenticated or not;
+* [/content/manager][3] available only for a manager role;
+* [/content/employee][3] available only for a employee role;
+* [/content/authenticated][3] available for both manager and employee roles;
 * [/user/login][2] (Post Method) with user and password, if correct will return a token that can be used for restricted contents;
 
 The tests using xUnit for those requests are available in [JwtBearerExample.Tests][1]
