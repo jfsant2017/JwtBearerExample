@@ -18,5 +18,5 @@ The tests using xUnit for those requests are available in [JwtBearerExample.Test
 
 
 [1]: https://github.com/jfsant2017/JwtBearerExample.Tests
-[2]: https://github.com/jfsant2017/JwtBearerExample/blob/main/Controllers/RestrictedAccessController.cs
-[3]: https://github.com/jfsant2017/JwtBearerExample/blob/main/Controllers/UserController.cs
+[2]: https://github.com/jfsant2017/JwtBearerExample/blob/main/Controllers/UserController.cs
+[3]: https://github.com/jfsant2017/JwtBearerExample/blob/main/Controllers/RestrictedAccessController.cs
